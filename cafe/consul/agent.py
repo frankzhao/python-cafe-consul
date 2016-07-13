@@ -88,7 +88,7 @@ class DistributedConsulAgent(SessionedConsulAgent):
         self.is_leader = False
         self._abstain = False
         self.leader_key = 'service/{}/leader'.format(name)
-        reactor.callLater(0, self.update_leader)
+        reactor.callLater(0, self.acquire_leadership)
 
     @property
     def leader(self):
@@ -125,7 +125,7 @@ class DistributedConsulAgent(SessionedConsulAgent):
 
         :rtype: str
         """
-        return self.session.uuid
+        return str(self.session.uuid)
 
     @defer.inlineCallbacks
     def acquire_leadership(self):
